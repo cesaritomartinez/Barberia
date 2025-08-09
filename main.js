@@ -94,7 +94,7 @@ const adminPageTemplate = `
               <form id="login-form" class="login-form">
                   <div class="form-group">
                       <label for="admin-user">Usuario</label>
-                      <input id="admin-user" type="text" value="admin" readonly />
+                      <input id="admin-user" type="text" value="" />
                   </div>
                   <div class="form-group">
                       <label for="password">Contraseña</label>
@@ -114,7 +114,7 @@ const adminPageTemplate = `
             <div class="container dashboard-header-content">
                 <h1 class="dashboard-title">Panel de Administración</h1>
                 <div>
-                    <a href="#" class="link light mr-4">Ver Sitio</a>
+                     <a href="#" class="link light mr-4">Ver Sitio</a>
                     <button id="logout-button" class="button button-primary">Cerrar Sesión</button>
                 </div>
             </div>
@@ -507,15 +507,23 @@ const setupBookingForm = () => {
 const setupAdminLogin = () => {
   const form = document.getElementById("login-form");
   if (!form) return;
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    const user = document.getElementById("admin-user").value.trim();
     const password = document.getElementById("password").value;
     const errorEl = document.getElementById("login-error");
-    if (password === "barberia") {
+
+    // Limpio errores anteriores
+    errorEl.textContent = "";
+    errorEl.classList.add("hidden");
+
+    if (user === "admin" && password === "barberia") {
       sessionStorage.setItem("isAdminAuthenticated", "true");
       handleRoute();
     } else {
-      errorEl.textContent = "Contraseña incorrecta.";
+      errorEl.textContent = "Usuario o contraseña incorrectos.";
       errorEl.classList.remove("hidden");
     }
   });
